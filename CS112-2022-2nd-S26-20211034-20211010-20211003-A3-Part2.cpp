@@ -25,17 +25,19 @@ void loadGImage1 ();
 void loadGImage2 ();
 void saveCImage ();
 void saveGImage ();
-void Black_whiteG();
+void BW_gray();
 void BW_color();
-void invert_image ();
+void invertGimage ();
+void invertCimage ();
 void MergeCImages ();
 void MergeGImages ();
-void userInputRotate();
+void Rotate_G();
+void Rotate_C ();
 void flipG();
 void flipC();
 void LDCimage6 ();
 void LDGimage6 ();
-void Enlarge_image();
+void enlargeGimage();
 void enlargeCImage ();
 void shrinkG ();
 void shrinkC ();
@@ -135,7 +137,7 @@ void saveCImage () {
 
 //_______________________________________________
 
-void invert_image() {
+void invertGimage() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {    //loops through entire 2d matrix
             if (Gimage1[i][j] == 255) {   // if it is black make it white
@@ -152,8 +154,27 @@ void invert_image() {
 }
 
 //_______________________________________________
+void invertCImage() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
+            for (int k = 0; k < RGB; k++){
+                if (Cimage1[i][j][k] == 255) {   // if it is black make it white
+                    Cimage1[i][j][k] = 0;
+                }
+                else if(Cimage1[i][j][k] == 0) { // if it is white make it black
+                    Cimage1[i][j][k] = 255;
+                }
+                else{
+                    Cimage1[i][j][k] = 255 - Cimage1[i][j][k];    //if it is grey make it the opposite shade of grey
+                }
+            }
+        }
+    }
+}
 
-void Black_whiteG(){
+//_______________________________________________
+
+void BW_gray(){
     int avg{};
     for(size_t i{}; i < SIZE; ++i ){
         for (size_t j{}; j < SIZE; ++j){
@@ -203,25 +224,6 @@ void BW_color() {
         }
     }
 }
-//_______________________________________________
-void invertCImage() {
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
-            for (int k = 0; k < RGB; k++){
-                if (image[i][j][k] == 255) {   // if it is black make it white
-                    Gimage1[i][j][k] = 0;
-                }
-                else if(image[i][j][k] == 0) { // if it is white make it black
-                    Gimage1[i][j][k] = 255;
-                }
-                else{
-                    Gimage1[i][j][k] = 255 - image[i][j][k];    //if it is grey make it the opposite shade of grey
-                }
-            }
-        }
-    }
-}
-
 
 //_______________________________________________
 
@@ -298,7 +300,7 @@ void flipC(){
 }
 
 //_______________________________________________
-void upsideDown() {
+void G_upsideDown() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[SIZE-i][SIZE-j] = Gimage1[i][j];
@@ -311,7 +313,7 @@ void upsideDown() {
     }
 }
 
-void rotateTwoSeventy() {
+void rotateG_TwoSeventy() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -324,7 +326,7 @@ void rotateTwoSeventy() {
     }
 }
 
-void rotateNinety() {
+void rotateG_Ninety() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -337,23 +339,23 @@ void rotateNinety() {
     }
 }
 
-void userInputRotate() {
+void Rotate_G() {
     int x;
-    cout << "1 for 90 degrees 2 for 180 3 for 270: ";
+    cout << "Rotate: 1 for 90 degrees / 2 for 180 / 3 for 270: ";
     cin >> x;
     if (x==1){
-        rotateNinety();
+        rotateG_Ninety();
     }else if (x == 2){
-        upsideDown();
+        G_upsideDown();
     }else if (x == 3){
-        rotateTwoSeventy();
+        rotateG_TwoSeventy();
     }else{
         cout << "invalid input";
     }
 }
 
 //_______________________________________________
-void upsideDown() {
+void C_upsideDown() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++) {
@@ -370,7 +372,7 @@ void upsideDown() {
     }
 }
 
-void rotateTwoSeventy() {
+void rotateC_TwoSeventy() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++){
@@ -387,7 +389,7 @@ void rotateTwoSeventy() {
     }
 }
 
-void rotateNinety() {
+void rotateC_Ninety() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++){
@@ -404,16 +406,16 @@ void rotateNinety() {
     }
 }
 
-void rotateCInput() {
+void Rotate_C() {
     int x;
     cout << "1 for 90 degrees 2 for 180 3 for 270: ";
     cin >> x;
     if (x==1){
-        rotateNinety();
+        rotateC_Ninety();
     }else if (x == 2){
-        upsideDown();
+        C_upsideDown();
     }else if (x == 3){
-        rotateTwoSeventy();
+        rotateC_TwoSeventy();
     }else{
         cout << "invalid input";
     }
@@ -477,7 +479,7 @@ void LDCimage6 () {
 }
 
 //_______________________________________________
-void Enlarge_image() {
+void enlargeGimage() {
     unsigned int choice, startX, startY;
     cout<<"\nwhich quarter of the picture do you wish to enlarge?";
     cin>>choice;    //takes input from user
@@ -589,7 +591,7 @@ void enlargeCImage() {
 
 //_______________________________________________
 void shrinkG(){
-    unsigned int choice, jump, nsize, num, blank;
+    int choice, jump, nsize, num, blank;
     cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
     cin>>choice;
     while (choice!=1&&choice!=2&&choice!=3)
@@ -664,7 +666,7 @@ void shrinkG(){
 //_______________________________________________
 void shrinkC() {
 
-    unsigned int choice, jump, nsize, num, blank;
+    int choice, jump, nsize, num, blank;
     cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
     cin>>choice;
     while (choice!=1&&choice!=2&&choice!=3)
@@ -876,6 +878,13 @@ void shuffleGImage() {
             Gimage1[i][k] = Gimage2[i][k]; 
         }
     }
+/*
+    for (int i = 0; i<SIZE; i++){
+        for (int j =0; j<SIZE; j++){
+            Gimage1[i][j] = 
+        }
+    }*/
+
 }
 
 //_______________________________________________
@@ -1075,15 +1084,15 @@ int main(){
         loadGImage1();
         while (choice != '0'){
 
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n"<<endl;
+            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n"<<endl;
             cin >> choice;
             if (choice == '1'){
-                Black_whiteG();
+                BW_gray();
                 cout<<"\nDONE!\n";
             }
 
             else if (choice == '2'){
-                invert_image();
+                invertGimage();
                 cout<<"\nDONE!\n";
             }
 
@@ -1099,7 +1108,7 @@ int main(){
             }
 
             else if (choice == '5'){
-                userInputRotate();
+                Rotate_G();
                 cout<<"\nDONE!\n";
             }
 
@@ -1109,13 +1118,18 @@ int main(){
             }
 
             else if (choice == '8'){
-                Enlarge_image();
+                enlargeGimage();
                 cout<<"\nDONE!\n";
 
             }
 
             else if (choice == '9'){
                 shrinkG();
+                cout<<"\nDONE!\n";
+            }
+
+            else if (tolower(choice) == 'b'){
+                shuffleGImage();
                 cout<<"\nDONE!\n";
             }
 
@@ -1162,7 +1176,7 @@ int main(){
                 cout<<"\nDONE!\n";
             }
             else if (choice == '5'){
-                rotateCInput();
+                Rotate_C ();
                 cout<<"\nDONE!\n";
             }
 
@@ -1180,7 +1194,7 @@ int main(){
                 shrinkC();
                 cout<<"\nDONE!\n";
             }
-            else if (choice == 'b'){
+            else if (tolower(choice) == 'b'){
                 shuffleCImage();
                 cout<<"\nDONE!\n";
             }
