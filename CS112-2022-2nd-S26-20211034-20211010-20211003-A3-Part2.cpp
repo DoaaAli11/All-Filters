@@ -32,7 +32,7 @@ void invertCimage ();
 void MergeCImages ();
 void MergeGImages ();
 void Rotate_G();
-void Rotate_C ();
+void Rotate_C();
 void flipG();
 void flipC();
 void LDCimage6 ();
@@ -226,6 +226,26 @@ void BW_color() {
 }
 
 //_______________________________________________
+void invertCImage() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
+            for (int k = 0; k < RGB; k++){
+                if (Cimage1[i][j][k] == 255) {   // if it is black make it white
+                    Cimage1[i][j][k] = 0;
+                }
+                else if(Cimage1[i][j][k] == 0) { // if it is white make it black
+                    Cimage1[i][j][k] = 255;
+                }
+                else{
+                    Cimage1[i][j][k] = 255 - Cimage1[i][j][k];    //if it is grey make it the opposite shade of grey
+                }
+            }
+        }
+    }
+}
+
+
+//_______________________________________________
 
 void MergeCImages () {
 
@@ -314,6 +334,7 @@ void G_upsideDown() {
 }
 
 void rotateG_TwoSeventy() {
+
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -327,6 +348,7 @@ void rotateG_TwoSeventy() {
 }
 
 void rotateG_Ninety() {
+
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -349,6 +371,7 @@ void Rotate_G() {
         G_upsideDown();
     }else if (x == 3){
         rotateG_TwoSeventy();
+        
     }else{
         cout << "invalid input";
     }
