@@ -656,9 +656,8 @@ int main(){
 
 
     else if (C_or_G == '2'){
-
+        loadCImage1();
         while (choice != '0'){
-            loadCImage1();
             cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n3-Merge Images\n4-Flip Image\n6-Darken and Lighten Image\n9-Shrink Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
             cin >> choice ;
             if (choice == '1'){
