@@ -30,13 +30,17 @@ void BW_color();
 void invert_image ();
 void MergeCImages ();
 void MergeGImages ();
+void userInputRotate();
 void flipG();
 void flipC();
 void LDCimage6 ();
 void LDGimage6 ();
 void Enlarge_image();
+void enlargeCImage ();
 void shrinkG ();
 void shrinkC ();
+void shuffleGImage ();
+void shuffleCImage ();
 void blurG ();
 void blurC ();
 
@@ -167,7 +171,7 @@ void Black_whiteG(){
         }
     }
 }
-//_________________________________________
+//_______________________________________________
 
 void BW_color() {
     int avg{};
@@ -199,7 +203,7 @@ void BW_color() {
         }
     }
 }
-//_________________________________________
+//_______________________________________________
 
 void MergeCImages () {
 
@@ -274,6 +278,61 @@ void flipC(){
 }
 
 //_______________________________________________
+void upsideDown() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage2[SIZE-i][SIZE-j] = Gimage1[i][j];
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage1[i][j] = Gimage2[i][j];
+        }
+    }
+}
+
+void rotateTwoSeventy() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage2[i][j] = Gimage1[j][i];
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage1[i][j] = Gimage2[i][j];
+        }
+    }
+}
+
+void rotateNinety() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage2[i][j] = Gimage1[j][i];
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            Gimage1[SIZE-i][SIZE-j] = Gimage2[i][j];
+        }
+    }
+}
+
+void userInputRotate() {
+    int x;
+    cout << "1 for 90 degrees 2 for 180 3 for 270: ";
+    cin >> x;
+    if (x==1){
+        rotateNinety();
+    }else if (x == 2){
+        upsideDown();
+    }else if (x == 3){
+        rotateTwoSeventy();
+    }else{
+        cout << "invalid input";
+    }
+}
+
+//_______________________________________________
 
 void LDGimage6 (){
     char LD;
@@ -330,7 +389,7 @@ void LDCimage6 () {
     }
 }
 
-//_________________________________________
+//_______________________________________________
 void Enlarge_image() {
     unsigned int choice, startX, startY;
     cout<<"\nwhich quarter of the picture do you wish to enlarge?";
@@ -378,6 +437,66 @@ void Enlarge_image() {
         }
     }
 
+}
+
+
+//_______________________________________________
+void enlargeCImage() {
+    unsigned int choice, startX, startY;
+    cout<<"\nwhich quarter of the picture do you wish to enlarge?";
+    cin>>choice;
+    switch (choice) {
+
+        case 1:
+            startX = startY = 0;
+            break;
+
+        case 2:
+            startX = 0;
+            startY = SIZE/2;
+            break;
+        case 3:
+            startX = SIZE/2;
+            startY = 0;
+            break;
+        case 4:
+            startX = SIZE/2;
+            startY = SIZE/2;
+            break;
+        default :
+            cout<<"invalid input.";
+            return;
+    }
+    int row = 0;
+    for(int k=startX; k<SIZE ; k++){
+        int col =0 ;
+        int col2 = 0;
+        for (int i=startY ;i<SIZE ; i++){
+            col +=1;
+            col2 = col + 1;
+            if (col>256) break;
+            for (int j = 0; j<RGB; j++){
+                Cimage2[row][col][j] = Cimage1[k][i][j];
+                if (col2>256) break;
+                Cimage2[row][col2][j] = Cimage1[k][i][j];
+            }
+            col = col2;
+        }
+        for (int j =0 ;j<SIZE ;j++){
+            for (int i = 0; i<RGB; i++){
+                Cimage2[row+1][j][i]=Cimage2[row][j][i];
+            }
+        }
+        row+=2;
+        if  (row>256) break;
+    }
+    for(int k=0; k<SIZE ; k++){
+        for (int j=0; j<SIZE; j++){
+            for (int i=0; i<RGB; i++){
+                Cimage1[k][j][i] = Cimage2[k][j][i];
+            }
+        }
+    }
 }
 
 
@@ -455,7 +574,7 @@ void shrinkG(){
 
 }
 
-//_________________________________________
+//_______________________________________________
 void shrinkC() {
 
     unsigned int choice, jump, nsize, num, blank;
@@ -542,7 +661,152 @@ void shrinkC() {
     }
 }
 
-//_________________________________________
+//_______________________________________________
+void shuffleGImage() {}
+
+
+//_______________________________________________
+void shuffleCImage() {
+    //row and column affect where the square is going to go
+    //k and i affect which square is going to be copied
+    int oneA,twoA,oneB,twoB,oneC,twoC,oneD,twoD,half=SIZE/2;
+    int row = 0;
+    cout << "insert the order of the pictures: ";
+    int a, b, c ,d;
+    cin >> a >> b >> c >> d;
+    if (a == 4) {
+        oneA = half;
+        twoA = half;
+    }else if(a == 1) {
+        oneA = 0;
+        twoA = 0;
+    }else if(a == 2) {
+        oneA = 0;
+        twoA = half;
+    }else if(a == 3) {
+        oneA=half;
+        twoA=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (b == 4) {
+        oneB = half;
+        twoB = half;
+    }else if(b == 1) {
+        oneB = 0;
+        twoB = 0;
+    }else if(b == 2) {
+        oneB = 0;
+        twoB = half;
+    }else if(b == 3) {
+        oneB=half;
+        twoB=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (c == 4) {
+        oneC = half;
+        twoC = half;
+    }else if(c == 1) {
+        oneC = 0;
+        twoC = 0;
+    }else if(c == 2) {
+        oneC = 0;
+        twoC = half;
+    }else if(c == 3) {
+        oneC=half;
+        twoC=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (d == 4) {
+        oneD = half;
+        twoD = half;
+    }else if(d == 1) {
+        oneD = 0;
+        twoD = 0;
+    }else if(d == 2) {
+        oneD = 0;
+        twoD = half;
+    }else if(d == 3) {
+        oneD=half;
+        twoD=0;
+    } else {
+        cout << "invalid input.";
+    }
+    //first section
+    int x;
+    int y;
+    x= (oneA==0)? half:SIZE;
+    y= (twoA==0)? half:SIZE;
+    for(int k=oneA; k<x ; k++) {
+        int col = 0;
+        for (int i = twoA; i < y; i++) {
+            col++;
+            for(int j = 0; j < RGB; j++){
+                if (col > 256) break;
+                Cimage2[row][col][j] = Cimage1[k][i][j];   //bottom right to top left
+            }
+        }
+        row++;
+    }
+    //end of first section
+    x= (oneB==0)? half:SIZE;
+    y= (twoB==0)? half:SIZE;
+    row = 0;
+    for(int k=oneB; k<x ; k++) {
+        int col = half;
+        for (int i = twoB; i < y; i++) {    //top left to top right
+            col++;
+            for(int j = 0; j < RGB; j++){
+                if (col > 256) break;
+                Cimage2[row][col][j] = Cimage1[k][i][j];   //bottom right to top left
+            }
+        }
+        row++;
+    }
+    //end of second section
+    x= (oneC==0)? half:SIZE;
+    y= (twoC==0)? half:SIZE;
+    row = half;
+    for (int k = oneC; k < x; k++) {
+        int col = 0;
+        for (int i = twoC; i < y; i++) {    //bottom left to bottom left
+            col++;
+            for(int j = 0; j < RGB; j++){
+                if (col > 256) break;
+                Cimage2[row][col][j] = Cimage1[k][i][j];   //bottom right to top left
+            }
+        }
+        row++;
+    }
+    //end of third section
+    x= (oneD==0)? half:SIZE;
+    y= (twoD==0)? half:SIZE;
+    row = half;
+    for(int k=oneD; k<x ; k++) {
+        int col = half;
+        for (int i = twoD; i < y; i++) { //top right to bottom right
+            col++;
+            for(int j = 0; j < RGB; j++){
+                if (col > 256) break;
+                Cimage2[row][col][j] = Cimage1[k][i][j];   //bottom right to top left
+            }
+        }
+        row++;
+    }
+    //end of fourth section
+    for (int i=0;i<SIZE;i++){
+        for (int k=0;k<SIZE;k++){
+            for (int j=0;j<RGB;j++){
+                Cimage1[i][k][j] = Cimage2[i][k][j];
+            }
+        }
+    }
+}
+
+
+//_______________________________________________
 void blurG() {
 
   for (int i = 0; i < SIZE-1; i++) {
@@ -562,7 +826,7 @@ void blurG() {
   }
 }
 
-//_________________________________________
+//_______________________________________________
 void blurC() {
 
   for (int i = 0; i < SIZE-1; i++) {
@@ -598,7 +862,7 @@ int main(){
         loadGImage1();
         while (choice != '0'){
 
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image\n3-Merge Images\n4-Flip Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n"<<endl;
+            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n"<<endl;
             cin >> choice;
             if (choice == '1'){
                 Black_whiteG();
@@ -619,6 +883,11 @@ int main(){
             else if (choice == '4'){
                flipG();
                cout<<"\nDONE!\n";
+            }
+
+            else if (choice == '5'){
+                userInputRotate();
+                cout<<"\nDONE!\n";
             }
 
             else if (choice == '6'){
@@ -658,7 +927,7 @@ int main(){
     else if (C_or_G == '2'){
         loadCImage1();
         while (choice != '0'){
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n3-Merge Images\n4-Flip Image\n6-Darken and Lighten Image\n9-Shrink Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
+            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n3-Merge Images\n4-Flip Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
             cin >> choice ;
             if (choice == '1'){
                 BW_color();
@@ -681,11 +950,19 @@ int main(){
                 cout<<"\nDONE!\n";
             }
 
+            else if (choice == '8'){
+                enlargeCImage();
+                cout << "\nDONE!\n";
+            }
+
             else if (choice == '9'){
                 shrinkC();
                 cout<<"\nDONE!\n";
             }
-
+            else if (choice == 'b'){
+                shuffleCImage();
+                cout<<"\nDONE!\n";
+            }
             else if (tolower(choice) == 'c'){
                 blurC();
                 cout<<"\nDONE!\n";
