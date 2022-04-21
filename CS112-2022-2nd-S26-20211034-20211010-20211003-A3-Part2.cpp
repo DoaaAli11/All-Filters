@@ -662,8 +662,134 @@ void shrinkC() {
 }
 
 //_______________________________________________
-void shuffleGImage() {}
-
+void shuffleGImage() {
+    //row and column affect where the square is going to go
+    //k and i affect which square is going to be copied
+    int oneA,twoA,oneB,twoB,oneC,twoC,oneD,twoD,half=SIZE/2;
+    int row = 0;
+    cout << "insert the order of the pictures: ";
+    int a, b, c ,d;
+    cin >> a >> b >> c >> d;
+    if (a == 4) {
+        oneA = half;
+        twoA = half;
+    }else if(a == 1) {
+        oneA = 0;
+        twoA = 0;
+    }else if(a == 2) {
+        oneA = 0;
+        twoA = half;
+    }else if(a == 3) {
+        oneA=half;
+        twoA=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (b == 4) {
+        oneB = half;
+        twoB = half;
+    }else if(b == 1) {
+        oneB = 0;
+        twoB = 0;
+    }else if(b == 2) {
+        oneB = 0;
+        twoB = half;
+    }else if(b == 3) {
+        oneB=half;
+        twoB=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (c == 4) {
+        oneC = half;
+        twoC = half;
+    }else if(c == 1) {
+        oneC = 0;
+        twoC = 0;
+    }else if(c == 2) {
+        oneC = 0;
+        twoC = half;
+    }else if(c == 3) {
+        oneC=half;
+        twoC=0;
+    } else {
+        cout << "invalid input.";
+    }
+    if (d == 4) {
+        oneD = half;
+        twoD = half;
+    }else if(d == 1) {
+        oneD = 0;
+        twoD = 0;
+    }else if(d == 2) {
+        oneD = 0;
+        twoD = half;
+    }else if(d == 3) {
+        oneD=half;
+        twoD=0;
+    } else {
+        cout << "invalid input.";
+    }
+    //first section
+    int x;
+    int y;
+    x= (oneA==0)? half:SIZE;
+    y= (twoA==0)? half:SIZE;
+    for(int k=oneA; k<x ; k++) {
+        int col = 0;
+        for (int i = twoA; i < y; i++) {
+            col++;
+            if (col > 256) break;
+            Gimage2[row][col] = Gimage1[k][i];   //bottom right to top left
+        }
+        row++;
+    }
+    //end of first section
+    x= (oneB==0)? half:SIZE;
+    y= (twoB==0)? half:SIZE;
+    row = 0;
+    for(int k=oneB; k<x ; k++) {
+        int col = half;
+        for (int i = twoB; i < y; i++) {    //top left to top right
+            col++;
+            if (col > 256) break;
+            Gimage2[row][col] = Gimage1[k][i];   //bottom right to top left
+        }
+        row++;
+    }
+    //end of second section
+    x= (oneC==0)? half:SIZE;
+    y= (twoC==0)? half:SIZE;
+    row = half;
+    for (int k = oneC; k < x; k++) {
+        int col = 0;
+        for (int i = twoC; i < y; i++) {    //bottom left to bottom left
+            col++;
+            if (col > 256) break;
+            Gimage2[row][col] = Gimage1[k][i];   //bottom right to top left
+        }
+        row++;
+    }
+    //end of third section
+    x= (oneD==0)? half:SIZE;
+    y= (twoD==0)? half:SIZE;
+    row = half;
+    for(int k=oneD; k<x ; k++) {
+        int col = half;
+        for (int i = twoD; i < y; i++) { //top right to bottom right
+            col++;
+            if (col > 256) break;
+            Gimage2[row][col] = Gimage1[k][i];   //bottom right to top left
+        }
+        row++;
+    }
+    //end of fourth section
+    for (int i=0;i<SIZE;i++){
+        for (int k=0;k<SIZE;k++){
+            Gimage1[i][k] = Gimage2[i][k]; 
+        }
+    }
+}
 
 //_______________________________________________
 void shuffleCImage() {
