@@ -204,6 +204,26 @@ void BW_color() {
     }
 }
 //_______________________________________________
+void invertCImage() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
+            for (int k = 0; k < RGB; k++){
+                if (image[i][j][k] == 255) {   // if it is black make it white
+                    Gimage1[i][j][k] = 0;
+                }
+                else if(image[i][j][k] == 0) { // if it is white make it black
+                    Gimage1[i][j][k] = 255;
+                }
+                else{
+                    Gimage1[i][j][k] = 255 - image[i][j][k];    //if it is grey make it the opposite shade of grey
+                }
+            }
+        }
+    }
+}
+
+
+//_______________________________________________
 
 void MergeCImages () {
 
@@ -318,6 +338,73 @@ void rotateNinety() {
 }
 
 void userInputRotate() {
+    int x;
+    cout << "1 for 90 degrees 2 for 180 3 for 270: ";
+    cin >> x;
+    if (x==1){
+        rotateNinety();
+    }else if (x == 2){
+        upsideDown();
+    }else if (x == 3){
+        rotateTwoSeventy();
+    }else{
+        cout << "invalid input";
+    }
+}
+
+//_______________________________________________
+void upsideDown() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++) {
+                Cimage2[SIZE-i][SIZE-j][k] = Cimage1[i][j][k];
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++){
+                Cimage1[i][j][k] = Cimage2[i][j][k];
+            }
+        }
+    }
+}
+
+void rotateTwoSeventy() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++){
+                Cimage2[i][j][k] = Cimage1[j][i][k];
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++){
+                Cimage1[i][j][k] = Cimage2[i][j][k];
+            }
+        }
+    }
+}
+
+void rotateNinety() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++){
+                Cimage2[i][j][k] = Cimage1[j][i][k];
+            }
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            for (int k=0; k<RGB; k++){
+                Cimage1[SIZE-i][SIZE-j][k] = Cimage2[i][j][k];
+            }
+        }
+    }
+}
+
+void rotateCInput() {
     int x;
     cout << "1 for 90 degrees 2 for 180 3 for 270: ";
     cin >> x;
@@ -1053,10 +1140,14 @@ int main(){
     else if (C_or_G == '2'){
         loadCImage1();
         while (choice != '0'){
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n3-Merge Images\n4-Flip Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
+            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image Color\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
             cin >> choice ;
             if (choice == '1'){
                 BW_color();
+                cout<<"\nDONE!\n";
+            }
+            else if (choice == '2'){
+                invertCImage();
                 cout<<"\nDONE!\n";
             }
 
@@ -1068,6 +1159,10 @@ int main(){
 
             else if (choice == '4'){
                 flipC();
+                cout<<"\nDONE!\n";
+            }
+            else if (choice == '5'){
+                rotateCInput();
                 cout<<"\nDONE!\n";
             }
 
