@@ -30,7 +30,8 @@ void BW_color();
 void invert_image ();
 void MergeCImages ();
 void MergeGImages ();
-void userInputRotate();
+void userInputRotateG();
+void rotateCInputC();
 void flipG();
 void flipC();
 void LDCimage6 ();
@@ -208,14 +209,14 @@ void invertCImage() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
             for (int k = 0; k < RGB; k++){
-                if (image[i][j][k] == 255) {   // if it is black make it white
-                    Gimage1[i][j][k] = 0;
+                if (Cimage1[i][j][k] == 255) {   // if it is black make it white
+                    Cimage1[i][j][k] = 0;
                 }
-                else if(image[i][j][k] == 0) { // if it is white make it black
-                    Gimage1[i][j][k] = 255;
+                else if(Cimage1[i][j][k] == 0) { // if it is white make it black
+                    Cimage1[i][j][k] = 255;
                 }
                 else{
-                    Gimage1[i][j][k] = 255 - image[i][j][k];    //if it is grey make it the opposite shade of grey
+                    Cimage1[i][j][k] = 255 - Cimage1[i][j][k];    //if it is grey make it the opposite shade of grey
                 }
             }
         }
@@ -298,7 +299,7 @@ void flipC(){
 }
 
 //_______________________________________________
-void upsideDown() {
+void upsideDownG() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[SIZE-i][SIZE-j] = Gimage1[i][j];
@@ -311,7 +312,7 @@ void upsideDown() {
     }
 }
 
-void rotateTwoSeventy() {
+void rotateTwoSeventyG() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -324,7 +325,7 @@ void rotateTwoSeventy() {
     }
 }
 
-void rotateNinety() {
+void rotateNinetyG() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             Gimage2[i][j] = Gimage1[j][i];
@@ -337,23 +338,23 @@ void rotateNinety() {
     }
 }
 
-void userInputRotate() {
+void userInputRotateG() {
     int x;
     cout << "1 for 90 degrees 2 for 180 3 for 270: ";
     cin >> x;
     if (x==1){
-        rotateNinety();
+        rotateNinetyG();
     }else if (x == 2){
-        upsideDown();
+        upsideDownG();
     }else if (x == 3){
-        rotateTwoSeventy();
+        rotateTwoSeventyG();
     }else{
         cout << "invalid input";
     }
 }
 
 //_______________________________________________
-void upsideDown() {
+void upsideDownC() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++) {
@@ -370,7 +371,7 @@ void upsideDown() {
     }
 }
 
-void rotateTwoSeventy() {
+void rotateTwoSeventyC() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++){
@@ -387,7 +388,7 @@ void rotateTwoSeventy() {
     }
 }
 
-void rotateNinety() {
+void rotateNinetyC() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++){
@@ -409,11 +410,11 @@ void rotateCInput() {
     cout << "1 for 90 degrees 2 for 180 3 for 270: ";
     cin >> x;
     if (x==1){
-        rotateNinety();
+        rotateNinetyC();
     }else if (x == 2){
-        upsideDown();
+        upsideDownC();
     }else if (x == 3){
-        rotateTwoSeventy();
+        rotateTwoSeventyC();
     }else{
         cout << "invalid input";
     }
@@ -1099,7 +1100,7 @@ int main(){
             }
 
             else if (choice == '5'){
-                userInputRotate();
+                userInputRotateG();
                 cout<<"\nDONE!\n";
             }
 
