@@ -3,7 +3,7 @@
 // Author 1: Doaa ALi El-Sayed Mohamed (20211034)
 // Author 2: Ahmed Yasser Mohamed Mohamed (20211010)
 // Author 3: Ahmed Ahmed Hamed Ahmed (20211003)
-// Last version:    21 April 2022
+// Last version:    22 April 2022
 
 
 #include <iostream>
@@ -16,7 +16,8 @@
 //_________________________________________
 
 unsigned char Cimage1[SIZE][SIZE][RGB], Cimage2[SIZE][SIZE][RGB];
-unsigned char Gimage1[SIZE][SIZE], Gimage2[SIZE][SIZE], Gimage3[SIZE][SIZE];
+unsigned char Gimage1[SIZE][SIZE], Gimage2[SIZE][SIZE];
+
 //_________________________________________
 
 void loadCImage1 ();
@@ -25,151 +26,116 @@ void loadGImage1 ();
 void loadGImage2 ();
 void saveCImage ();
 void saveGImage ();
+//_________________________
 void BW_gray();
 void BW_color();
 void invertGimage ();
 void invertCimage ();
 void MergeCImages ();
 void MergeGImages ();
-void Rotate_G();
-void Rotate_C();
 void flipG();
 void flipC();
+void Rotate_G();
+void Rotate_C();
 void LDCimage6 ();
 void LDGimage6 ();
+void edge_detectionG();
+void edge_detectionRGB();
 void enlargeGimage();
 void enlargeCImage ();
 void shrinkG ();
 void shrinkC ();
+void mirrorG();
+void mirrorRGB();
 void shuffleGImage ();
 void shuffleCImage ();
 void blurG ();
 void blurC ();
 
-
 //_________________________________________
 
-
 void loadGImage1 () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get grey image file name
-   cout << "Enter the source image file name: ";
-   cin >> imageFileName;
+    // Get grey image file name
+    cout << "Enter the source image file name: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   readGSBMP(imageFileName, Gimage1);
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    readGSBMP(imageFileName, Gimage1);
 }
 
 
 //_______________________________________________
 
 void loadGImage2 () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get grey image file name
-   cout << "Please enter name of image file to merge with: ";
-   cin >> imageFileName;
+    // Get grey image file name
+    cout << "Please enter name of image file to merge with: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   readGSBMP(imageFileName, Gimage2);
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    readGSBMP(imageFileName, Gimage2);
 }
 
 
 //_______________________________________________
 
 void saveGImage () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get gray scale image file name
-   cout << "Enter the target file name: ";
-   cin >> imageFileName;
+    // Get gray scale image file name
+    cout << "Enter the target file name: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   writeGSBMP(imageFileName, Gimage1);
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    writeGSBMP(imageFileName, Gimage1);
 }
 
 //_______________________________________________
 
 void loadCImage1 () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get colored image file name
-   cout << "Enter the source image file name: ";
-   cin >> imageFileName;
+    // Get colored image file name
+    cout << "Enter the source image file name: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   readRGBBMP(imageFileName, Cimage1);
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    readRGBBMP(imageFileName, Cimage1);
 }
 
 //_______________________________________________
 
 void loadCImage2 () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get colored image file name
-   cout << "Please enter name of image file to merge with: ";
-   cin >> imageFileName;
+    // Get colored image file name
+    cout << "Please enter name of image file to merge with: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   readRGBBMP(imageFileName, Cimage2);
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    readRGBBMP(imageFileName, Cimage2);
 }
 
 //_______________________________________________
 
 void saveCImage () {
-   char imageFileName[100];
+    char imageFileName[100];
 
-   // Get gray scale image file name
-   cout << "Enter the target file name: ";
-   cin >> imageFileName;
+    // Get gray scale image file name
+    cout << "Enter the target file name: ";
+    cin >> imageFileName;
 
-   // Add to it .bmp extension and load image
-   strcat (imageFileName, ".bmp");
-   writeRGBBMP(imageFileName, Cimage1);
-}
-
-
-//_______________________________________________
-
-void invertGimage() {
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {    //loops through entire 2d matrix
-            if (Gimage1[i][j] == 255) {   // if it is black make it white
-                Gimage1[i][j] = 0;
-            }
-            else if(Gimage1[i][j] == 0) { // if it is white make it black
-                Gimage1[i][j] = 255;
-            }
-            else{
-                Gimage1[i][j] = 255 - Gimage1[i][j];    //if it is grey make it the opposite shade of grey
-            }
-        }
-    }
-}
-
-//_______________________________________________
-void invertCImage() {
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {    //loops through entire 3d matrix
-            for (int k = 0; k < RGB; k++){
-                if (Cimage1[i][j][k] == 255) {   // if it is black make it white
-                    Cimage1[i][j][k] = 0;
-                }
-                else if(Cimage1[i][j][k] == 0) { // if it is white make it black
-                    Cimage1[i][j][k] = 255;
-                }
-                else{
-                    Cimage1[i][j][k] = 255 - Cimage1[i][j][k];    //if it is grey make it the opposite shade of grey
-                }
-            }
-        }
-    }
+    // Add to it .bmp extension and load image
+    strcat (imageFileName, ".bmp");
+    writeRGBBMP(imageFileName, Cimage1);
 }
 
 //_______________________________________________
@@ -218,8 +184,25 @@ void BW_color() {
                         Cimage1[i][r][k] = 0;
 
                     }
-
                 }
+            }
+        }
+    }
+}
+
+//_______________________________________________
+
+void invertGimage() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {    //loops through entire 2d matrix
+            if (Gimage1[i][j] == 255) {   // if it is black make it white
+                Gimage1[i][j] = 0;
+            }
+            else if(Gimage1[i][j] == 0) { // if it is white make it black
+                Gimage1[i][j] = 255;
+            }
+            else{
+                Gimage1[i][j] = 255 - Gimage1[i][j];    //if it is grey make it the opposite shade of grey
             }
         }
     }
@@ -244,6 +227,16 @@ void invertCImage() {
     }
 }
 
+//_______________________________________________
+
+void MergeGImages () {
+
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j < SIZE; j++){
+            Gimage1[i][j] = (Gimage1[i][j] + Gimage2[i][j]) / 2;
+        }
+    }
+}
 
 //_______________________________________________
 
@@ -260,16 +253,6 @@ void MergeCImages () {
 }
 
 //_______________________________________________
-
-void MergeGImages () {
-
-    for (int i = 0; i < SIZE; i++){
-        for (int j = 0; j < SIZE; j++){
-            Gimage1[i][j] = (Gimage1[i][j] + Gimage2[i][j]) / 2;
-        }
-    }
-}
-//_______________________________________________
 void flipG(){
     char flip;
     cout << "Flip (h)orizontally or (v)ertically ?" << endl;
@@ -281,14 +264,14 @@ void flipG(){
 
             }
         }
-        
+
     }
     else{
         for (int i{}; i < SIZE; ++i){
             for (int j{}; j < SIZE / 2; ++j){
                 swap(Gimage1[j][i],Gimage1[SIZE-j-1][i]);
             }
-        }    
+        }
     }
 }
 
@@ -371,7 +354,6 @@ void Rotate_G() {
         G_upsideDown();
     }else if (x == 3){
         rotateG_TwoSeventy();
-        
     }else{
         cout << "invalid input";
     }
@@ -502,6 +484,72 @@ void LDCimage6 () {
 }
 
 //_______________________________________________
+
+void edge_detectionG() {
+    BW_gray();
+    for (int i{}; i < SIZE; ++i){
+        for (int j{}; j < SIZE; ++j){
+            Gimage2[i][j] = 255;
+        }
+    }
+
+    for (int i{}; i < SIZE; ++i) {
+        for (int j{}; j < SIZE; ++j) {
+            if(Gimage1[i][j] == 0){
+                if(Gimage1[i][j-1] == 255 && Gimage1[i][j+1] == 0 || Gimage1[i][j-1] == 0 && Gimage1[i][j+1 ] == 255)
+                    Gimage2[i][j] = Gimage1[i][j];
+
+            }
+
+        }
+    }
+
+    for (int i=0; i < SIZE; ++i) {
+        for (int j=0; j < SIZE; ++j) {
+                Gimage1[i][j] = Gimage2[i][j];
+        }
+    }
+
+}
+
+//_______________________________________________
+
+void edge_detectionRGB(){
+    BW_color();
+    for (int i{}; i < SIZE; ++i){
+        for (int j{}; j < SIZE; ++j){
+            for(int k{}; k < SIZE; ++k){
+                Cimage2[i][j][k] = 255;
+            }
+        }
+    }
+    for (int i{}; i < SIZE; ++i) {
+        for (int j{}; j < SIZE; ++j) {
+            for(int k{}; k < RGB; ++k){
+
+                if (Cimage1[i][j][k] == 0) {
+                    if ((Cimage1[i][j - 1][k] == 255 && Cimage1[i][j + 1][k] == 0 )||( Cimage1[i][j - 1][k] == 0 && Cimage1[i][j + 1][k] == 255) ){
+                        Cimage2[i][j][k] = 0;
+                    } else{
+                        Cimage2[i][j][k] = 255;
+
+                    }
+                }
+            }
+        }
+    }
+
+    for (int i=0; i < SIZE; ++i) {
+        for (int j=0; j < SIZE; ++j) {
+            for(int k=0; k < RGB; ++k){
+                Cimage1[i][j][k] = Cimage2[i][j][k];
+            }
+        }
+    }
+
+}
+
+//_______________________________________________
 void enlargeGimage() {
     unsigned int choice, startX, startY;
     cout<<"\nwhich quarter of the picture do you wish to enlarge?";
@@ -532,20 +580,20 @@ void enlargeGimage() {
         int col =0 ;                    //declared at startX
         for (int i=startY ;i<SIZE ; i++){
             if (col>256) break;
-            Gimage3[row][++col] = Gimage1[k][i];
+            Gimage2[row][++col] = Gimage1[k][i];
             if (col>256) break;
-            Gimage3[row][++col] = Gimage1[k][i];   //places each pixel twice to the right in order to enlarge the image
+            Gimage2[row][++col] = Gimage1[k][i];   //places each pixel twice to the right in order to enlarge the image
         }
         for (int j =0 ;j<SIZE ;j++){
-            Gimage3[row+1][j] = Gimage3[row][j];    // copies the row above it
+            Gimage2[row+1][j] = Gimage2[row][j];    // copies the row above it
         }
         row+=2;
         if  (row>256) break;
     }
-    
+
     for(int i=0; i<SIZE; i++){
         for (int j=0; j<SIZE; j++){
-            Gimage1[i][j] = Gimage3[i][j];
+            Gimage1[i][j] = Gimage2[i][j];
         }
     }
 
@@ -623,8 +671,8 @@ void shrinkG(){
         cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
         cin>>choice;
     }
-        
-    switch (choice) {   
+
+    switch (choice) {
         case 1:
             jump = 2;
             nsize = SIZE;
@@ -644,9 +692,9 @@ void shrinkG(){
             num = 16;
             blank = SIZE/4;
             break;
-        
+
             return;
-        }    
+    }
 
     int k = -1;
     for (int i = 0; i < nsize; i+=jump){  // jump
@@ -656,7 +704,7 @@ void shrinkG(){
             int avrg =0;
             for (int r =0; r<jump ; r++){
                 for (int c =0; c<jump ; c++){
-                   avrg += Gimage1[i+r][j+c];
+                    avrg += Gimage1[i+r][j+c];
                 }
             }
             avrg /= num ;  // num
@@ -668,21 +716,21 @@ void shrinkG(){
 
     for (int k = 0; k < blank; k++){  // blank
         for (int z = blank; z < SIZE; z++){
-           Gimage1[k][z] = 255;
-            }
+            Gimage1[k][z] = 255;
         }
+    }
 
     for (int k = blank; k < SIZE; k++){
         for (int z = 0; z < blank; z++){
-           Gimage1[k][z] = 255;
-            }
+            Gimage1[k][z] = 255;
         }
+    }
 
     for (int k = blank; k < SIZE; k++){
         for (int z = blank; z < SIZE; z++){
-           Gimage1[k][z] = 255;
-            }
+            Gimage1[k][z] = 255;
         }
+    }
 
 }
 
@@ -698,8 +746,8 @@ void shrinkC() {
         cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
         cin>>choice;
     }
-        
-    switch (choice) {   
+
+    switch (choice) {
         case 1:
             jump = 2;
             nsize = SIZE;
@@ -719,9 +767,9 @@ void shrinkC() {
             num = 16;
             blank = SIZE/4;
             break;
-        
+
             return;
-        }    
+    }
 
     int k = -1;
 
@@ -745,7 +793,7 @@ void shrinkC() {
 
                 avrg /= num;
                 Cimage1[k][z][c] = avrg;
-            }            
+            }
         }
     }
 
@@ -771,6 +819,93 @@ void shrinkC() {
             }
         }
     }
+}
+
+//_______________________________________________
+
+void mirrorG(){
+    char ch{};
+    cout << "\nEnter the half of the image that you want to mirror 'L', 'R', 'U', 'D' " << endl;
+    cin >> ch;
+
+    if (tolower(ch) == 'r') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                Gimage1[j][i] = Gimage1[j][SIZE - i];
+            }
+        }
+    }
+    else if (tolower(ch) == 'l') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                Gimage1[j][SIZE - i] = Gimage1[j][i];
+            }
+        }
+    }
+    else if (tolower(ch) == 'u') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                Gimage1[i][j] = Gimage1[SIZE - i][j];
+            }
+        }
+    }
+    else {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                Gimage1[SIZE - i][j] = Gimage1[i][j];
+            }
+        }
+    }
+
+}
+
+//_______________________________________________
+
+void mirrorRGB() {
+    char ch{};
+    cout << "\nEnter the half of the image that you want to mirror 'L', 'R', 'U', 'D' " << endl;
+    cin >> ch;
+    if (tolower(ch) == 'r') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                for (int k{}; k < RGB; ++k) {
+                    Cimage1[j][i][k] = Cimage1[j][SIZE - i][k];
+
+                }
+            }
+        }
+    }
+    else if (tolower(ch) == 'l') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                for (int k{}; k < RGB; ++k) {
+                    Cimage1[j][SIZE - i][k] = Cimage1[j][i][k];
+
+                }
+            }
+        }
+    }
+    else if (tolower(ch) == 'u') {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                for (int k{}; k < RGB; ++k) {
+                    Cimage1[i][j][k] = Cimage1[SIZE - i][j][k];
+
+                }
+            }
+        }
+    }
+    else {
+        for (int i{}; i < SIZE / 2; ++i) {
+            for (int j{}; j < SIZE; ++j) {
+                for (int k{}; k < RGB; ++k) {
+                    Cimage1[SIZE - i][j][k] = Cimage1[i][j][k];
+
+                }
+            }
+        }
+    }
+
 }
 
 //_______________________________________________
@@ -901,12 +1036,6 @@ void shuffleGImage() {
             Gimage1[i][k] = Gimage2[i][k]; 
         }
     }
-/*
-    for (int i = 0; i<SIZE; i++){
-        for (int j =0; j<SIZE; j++){
-            Gimage1[i][j] = 
-        }
-    }*/
 
 }
 
@@ -1057,7 +1186,7 @@ void blurG() {
   for (int i = 0; i < SIZE-1; i++) {
     for (int j = 0; j< SIZE-1; j++) {
       
-        // blur color
+        // blur gray
           int avrg = 0 ;
           for (int r = 0; r<3; r++){
             for (int c=0; c<3; c++){
@@ -1066,36 +1195,35 @@ void blurG() {
             }
           avrg /= 9;
           Gimage1[i+1][j+1] = avrg;
-        
     }
   }
 }
-
+    
 //_______________________________________________
+
 void blurC() {
 
-  for (int i = 0; i < SIZE-1; i++) {
-    for (int j = 0; j< SIZE-1; j++) {
-      for (int k = 0; k < RGB ; k++)
-      {
-        // blur color
-        for (int l =0;l<RGB; l++){
-          int avrg = 0 ;
-          for (int r = 0; r<3; r++){
-            for (int c=0; c<3; c++){
-                avrg += Cimage1[i+r][j+c][l];
-              }
+    for (int i = 0; i < SIZE-1; i++) {
+        for (int j = 0; j< SIZE-1; j++) {
+            for (int k = 0; k < RGB ; k++)
+            {
+                // blur color
+                for (int l =0;l<RGB; l++){
+                    int avrg = 0 ;
+                    for (int r = 0; r<3; r++){
+                        for (int c=0; c<3; c++){
+                            avrg += Cimage1[i+r][j+c][l];
+                        }
+                    }
+                    avrg /= 9;
+                    Cimage1[i+1][j+1][l] = avrg;
+                }
             }
-          avrg /= 9;
-          Cimage1[i+1][j+1][l] = avrg;
         }
-      }
     }
-  }
 }
 
 //_______________________________________________
-
 
 int main(){
     char C_or_G, choice;
@@ -1107,7 +1235,7 @@ int main(){
         loadGImage1();
         while (choice != '0'){
 
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n"<<endl;
+            cout<<"\nWhat filter do you want to apply:\n\n1- Black & White Filter\n2- Invert Image\n3- Merge Images\n4- Flip Image\n5- Rotate Image\n6- Darken and Lighten Image\n7- Detect Image Edges\n8- Enlarge Image\n9- Shrink Image\nA- Mirror 1/2 Image\nB- Shuffle Image\nC- Blur Image\nS- Save the image to a file\n0- End\n\n"<<endl;
             cin >> choice;
             if (choice == '1'){
                 BW_gray();
@@ -1126,8 +1254,8 @@ int main(){
             }
 
             else if (choice == '4'){
-               flipG();
-               cout<<"\nDONE!\n";
+                flipG();
+                cout<<"\nDONE!\n";
             }
 
             else if (choice == '5'){
@@ -1140,6 +1268,11 @@ int main(){
                 cout<<"\nDONE!\n";
             }
 
+            else if (choice == '7'){
+                edge_detectionG();
+                cout<<"\nDONE!\n";
+            }
+
             else if (choice == '8'){
                 enlargeGimage();
                 cout<<"\nDONE!\n";
@@ -1148,6 +1281,11 @@ int main(){
 
             else if (choice == '9'){
                 shrinkG();
+                cout<<"\nDONE!\n";
+            }
+
+            else if (tolower(choice) == 'a'){
+                mirrorG();
                 cout<<"\nDONE!\n";
             }
 
@@ -1170,6 +1308,11 @@ int main(){
                 cout << "Thanks for using our program!";
                 break;
             }
+
+            else{
+                cout<<"Invalid Input!\nTry Again!\n";
+            }
+            
         }
     }
 
@@ -1177,8 +1320,7 @@ int main(){
     else if (C_or_G == '2'){
         loadCImage1();
         while (choice != '0'){
-            cout<<"\nWhat filter do you want to apply:\n\n1-Black & White Filter\n2-Invert Image Color\n3-Merge Images\n4-Flip Image\n5-Rotate Image\n6-Darken and Lighten Image\n8-Enlarge Image\n9-Shrink Image\nB-Shuffle Image\nC-Blur Image\nS-Save the image to a file\n0-End\n\n";
-
+            cout<<"\nWhat filter do you want to apply:\n\n1- Black & White Filter\n2- Invert Image Color\n3- Merge Images\n4- Flip Image\n5- Rotate Image\n6- Darken and Lighten Image\n7- Detect Image Edges\n8- Enlarge Image\n9- Shrink Image\nA- Mirror 1/2 Image\nB- Shuffle Image\nC- Blur Image\nS- Save the image to a file\n0- End\n\n";
             cin >> choice ;
             if (choice == '1'){
                 BW_color();
@@ -1209,6 +1351,11 @@ int main(){
                 cout<<"\nDONE!\n";
             }
 
+            else if (choice == '7'){
+                edge_detectionRGB();
+                cout<<"\nDONE!\n";
+            }
+
             else if (choice == '8'){
                 enlargeCImage();
                 cout << "\nDONE!\n";
@@ -1218,10 +1365,17 @@ int main(){
                 shrinkC();
                 cout<<"\nDONE!\n";
             }
+
+            else if (tolower(choice) == 'a'){
+                mirrorRGB();
+                cout<<"\nDONE!\n";
+            }
+
             else if (tolower(choice) == 'b'){
                 shuffleCImage();
                 cout<<"\nDONE!\n";
             }
+
             else if (tolower(choice) == 'c'){
                 blurC();
                 cout<<"\nDONE!\n";
@@ -1236,8 +1390,12 @@ int main(){
                 cout << "Thanks for using our program!";
                 break;
             }
+
+            else{
+                cout<<"Invalid Input!\nTry Again!\n";
+            }
+
         }
     }
-
     return 0;
 }
