@@ -230,10 +230,10 @@ void invertCImage() {
 //_______________________________________________
 
 void MergeGImages () {
-
-    for (int i = 0; i < SIZE; i++){
-        for (int j = 0; j < SIZE; j++){
-            Gimage1[i][j] = (Gimage1[i][j] + Gimage2[i][j]) / 2;
+// to merge images we tak the avarge of same two pixels in both images
+    for (int i = 0; i < SIZE; i++){   // loop in rows 
+        for (int j = 0; j < SIZE; j++){   //loop in columns 
+            Gimage1[i][j] = (Gimage1[i][j] + Gimage2[i][j]) / 2;  // take the averge and reassign the result in first image
         }
     }
 }
@@ -241,12 +241,13 @@ void MergeGImages () {
 //_______________________________________________
 
 void MergeCImages () {
+// to merge images we tak the avarge of same two pixels in both images
 
-    for (int i = 0; i < SIZE; i++){
-        for (int j = 0; j < SIZE; j++){
-            for (int k = 0; k < RGB; k++){
+    for (int i = 0; i < SIZE; i++){    // loop in rows
+        for (int j = 0; j < SIZE; j++){   //loop in columns 
+            for (int k = 0; k < RGB; k++){   //loop in RGB
 
-                Cimage1[i][j][k] = (Cimage1[i][j][k] + Cimage2[i][j][k]) / 2;
+                Cimage1[i][j][k] = (Cimage1[i][j][k] + Cimage2[i][j][k]) / 2;   // take the averge and reassign the result in first image
             }
         }
     }
@@ -429,24 +430,27 @@ void Rotate_C() {
 //_______________________________________________
 
 void LDGimage6 (){
+    // this function to derken and lighten image (0 is black, 255 is white)
     char LD;
     cout << "Do you want to (d)arken or (l)ighten: ";
     cin >> LD;
+    // darken image
     if (tolower(LD)=='d'){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
-                Gimage1[i][j] /=2;
+                Gimage1[i][j] /=2;  // we take half value in each pixel to derken the image by 50%
             }
         }
     }
+    // lighten image 
     else if (tolower(LD) == 'l'){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
-                if(Gimage1[i][j]>=128){
-                    Gimage1[i][j] = 255;
+                if(Gimage1[i][j]>=128){   // if the value greater than half SIZE we can't double it becuse it will be out of range 
+                    Gimage1[i][j] = 255;   // so we put the value at greatest light value which is 255
                 }
                 else{
-                    Gimage1[i][j] *=2;
+                    Gimage1[i][j] *=2;  // we take double value in each pixel to lighten the image by 50%
                 }
             }
         }
@@ -455,27 +459,30 @@ void LDGimage6 (){
 //_______________________________________________
 
 void LDCimage6 () {
-    string LD;
+    // this function to derken and lighten image (0 is black, 255 is white)
+    char LD;
     cout << "Do you want to (d)arken or (l)ighten: ";
     cin >> LD;
-    if (LD=="d"){
+    // darken image
+    if (tolower(LD)=='d'){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
                 for(int k = 0; k < RGB; k++){
-                    Cimage1[i][j][k] /=2 ;
+                    Cimage1[i][j][k] /=2 ;   // we take half value in each pixel to derken the image by 50%
                 }
             }
         }
     }
-    else if (LD == "l"){
+    // lighten image 
+    else if (tolower(LD) == 'l'){
         for (int i = 0; i < SIZE; i++){
             for (int j = 0; j < SIZE; j++){
                 for(int k = 0; k < RGB; k++){
-                    if(Cimage1[i][j][k]>=128){
-                        Cimage1[i][j][k] = 255;
+                    if(Cimage1[i][j][k]>=128){   // if the value greater than half SIZE we can't double it becuse it will be out of range 
+                        Cimage1[i][j][k] = 255;    // so we put the value at greatest light value which is 255
                     }
                     else{
-                        Cimage1[i][j][k] *=2;
+                        Cimage1[i][j][k] *=2;   // we take double value in each pixel to lighten the image by 50%
                     }
                 }
             }
@@ -662,9 +669,12 @@ void enlargeCImage() {
 
 //_______________________________________________
 void shrinkG(){
-    int choice, jump, nsize, num, blank;
+    // shrink image 
+    int choice, jump, num, blank; //jump is the number we will divide by to sheink the image
+    // we take how much user wanna shrink
     cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
     cin>>choice;
+    // check if it's not invalid input
     while (choice!=1&&choice!=2&&choice!=3)
     {
         cout<<"invalid input.";
@@ -673,22 +683,20 @@ void shrinkG(){
     }
 
     switch (choice) {
-        case 1:
-            jump = 2;
-            nsize = SIZE;
-            num = 4;
-            blank = SIZE/2;
+        case 1:        // if shrink by 1/2
+            jump = 2; // we set how many pixels we will jump 
+            num = 4; // num of pixels making square that we will take the averge of them
+            blank = SIZE/2; // the rest of the image 
             break;
-        case 2:
+
+        case 2:   // if shrink by 1/3
             jump = 3;
-            nsize = SIZE-1;
             num = 9;
             blank = SIZE/3;
             break;
 
-        case 3:
+        case 3:     // if shrink by 1/4
             jump = 4;
-            nsize = SIZE;
             num = 16;
             blank = SIZE/4;
             break;
@@ -696,39 +704,50 @@ void shrinkG(){
             return;
     }
 
-    int k = -1;
-    for (int i = 0; i < nsize; i+=jump){  // jump
-        int z = 0;
-        k++;
-        for (int j = 0; j < nsize; j+=jump){   //nsize
-            int avrg =0;
-            for (int r =0; r<jump ; r++){
-                for (int c =0; c<jump ; c++){
-                    avrg += Gimage1[i+r][j+c];
+    int row = -1;    // define row for new image and set it = -1 and we will increase it
+    
+    for (int i = 0; i < SIZE; i+=jump){  // loop on old rows in old image
+        
+        int col = 0;  // define column of new image
+        row++; // increase row so it will start from 0
+        
+        for (int j = 0; j < SIZE; j+=jump){   //loop on old columns in old image 
+            
+            int avrg =0;     
+            
+            for (int r =0; r<jump ; r++){    // loop on each square of pixels depends on the valu of num
+                for (int c =0; c<jump ; c++){    // and take the sum of them 
+                    
+                    avrg += Gimage1[i+r][j+c];  
                 }
             }
-            avrg /= num ;  // num
-            Gimage1[k][z] = avrg;
-            z++;
+            
+            avrg /= num ;  // take the average of square
+            Gimage1[row][col] = avrg;  // set the pixel = average in order
+            
+            col++;  // increase column of new image
         }
     }
 
-
-    for (int k = 0; k < blank; k++){  // blank
-        for (int z = blank; z < SIZE; z++){
-            Gimage1[k][z] = 255;
+    // blank------------
+    // start rows from blank (which was determined)
+    // start columns from blank (which was determined)
+    // then set the rest of image = 255 to be white
+    for (int i = 0; i < blank; i++){  
+        for (int j = blank; j < SIZE; j++){  
+            Gimage1[i][j] = 255;
         }
     }
 
-    for (int k = blank; k < SIZE; k++){
-        for (int z = 0; z < blank; z++){
-            Gimage1[k][z] = 255;
+    for (int i = blank; i < SIZE; i++){
+        for (int j = 0; j < blank; j++){
+            Gimage1[i][j] = 255;
         }
     }
 
-    for (int k = blank; k < SIZE; k++){
-        for (int z = blank; z < SIZE; z++){
-            Gimage1[k][z] = 255;
+    for (int i = blank; i < SIZE; i++){
+        for (int j = blank; j < SIZE; j++){
+            Gimage1[i][j] = 255;
         }
     }
 
@@ -737,8 +756,10 @@ void shrinkG(){
 //_______________________________________________
 void shrinkC() {
 
-    int choice, jump, nsize, num, blank;
+    int choice, jump, nsize, num, blank;    //jump is the number we will divide by to sheink the image
+    // we take how much user wanna shrink
     cout<<"\nHow much do you wanna shrink:\n1-1/2\n2-1/3\n3-1/4\n";
+    // check if it's not invalid input
     cin>>choice;
     while (choice!=1&&choice!=2&&choice!=3)
     {
@@ -748,22 +769,20 @@ void shrinkC() {
     }
 
     switch (choice) {
-        case 1:
-            jump = 2;
-            nsize = SIZE;
-            num = 4;
-            blank = SIZE/2;
+        case 1:     // if shrink by 1/2
+            jump = 2;    // we set how many pixels we will jump 
+            num = 4;     // num of pixels making square that we will take the averge of them
+            blank = SIZE/2;   // the rest of the image 
             break;
-        case 2:
+
+        case 2:     // if shrink by 1/3
             jump = 3;
-            nsize = SIZE-1;
             num = 9;
             blank = SIZE/3;
             break;
 
-        case 3:
+        case 3:    // if shrink by 1/4
             jump = 4;
-            nsize = SIZE;
             num = 16;
             blank = SIZE/4;
             break;
@@ -771,33 +790,38 @@ void shrinkC() {
             return;
     }
 
-    int k = -1;
+    int row = -1;   // define row for new image and set it = -1 and we will increase it
+    
+    for (int i = 0; i < nsize; i+=jump){   // loop on old rows in old image
+       
+        row++;    // increase row so it will start from 0
+        int col = -1;    // define column of new image
 
-    for (int i = 0; i < nsize; i+=jump){
-        k++;
-        int z = -1;
-
-        for (int j = 0; j < nsize; j+=jump){
-            z++;
+        for (int j = 0; j < nsize; j+=jump){    //loop on old columns in old image 
+           
+            col++;
 
             for (int c = 0; c<RGB ; c++){
 
                 int avrg = 0;
 
-                for (int r =0; r<jump ; r++){
-                    for (int k = 0; k <jump; k++){
-
+                for (int r =0; r<jump ; r++){   // loop on each square of pixels depends on the valu of num
+                    for (int k = 0; k <jump; k++){   // and take the sum of them 
+                       
                         avrg +=Cimage1[i+r][j+k][c];
                     }
                 }
 
-                avrg /= num;
-                Cimage1[k][z][c] = avrg;
+                avrg /= num;    // take the average of square
+                Cimage1[row][col][c] = avrg;     // set the pixel = average in order
             }
         }
     }
 
-
+    // blank------------
+    // start rows from blank (which was determined)
+    // start columns from blank (which was determined)
+    // then set the rest of image = 255 to be white
     for (int k = 0; k < blank; k++){
         for (int z = blank; z < SIZE; z++){
             for (int v = 0; v < RGB; v++){
@@ -1183,41 +1207,45 @@ void shuffleCImage() {
 //_______________________________________________
 void blurG() {
 
-  for (int i = 0; i < SIZE-1; i++) {
-    for (int j = 0; j< SIZE-1; j++) {
-      
-        // blur gray
-          int avrg = 0 ;
-          for (int r = 0; r<3; r++){
-            for (int c=0; c<3; c++){
-                avrg += Gimage1[i+r][j+c];
-              }
+  // blur image function
+    for (int i = 0; i < SIZE-1; i++) {   // loop on rows in image 
+        for (int j = 0; j< SIZE-1; j++) {  // loop on columns in image
+
+            int avrg = 0 ;  // define average
+
+            for (int r = 0; r<3; r++){   //loop on each squar of pixels 3x3 
+                for (int c=0; c<3; c++){   // then take sum of their value
+                    avrg += Gimage1[i+r][j+c];
+                }
             }
-          avrg /= 9;
-          Gimage1[i+1][j+1] = avrg;
+
+            avrg /= 9;  // take the average 
+            Gimage1[i+1][j+1] = avrg;   // set each pixel the average of the square
+        }
     }
-  }
 }
     
 //_______________________________________________
 
 void blurC() {
 
-    for (int i = 0; i < SIZE-1; i++) {
-        for (int j = 0; j< SIZE-1; j++) {
-            for (int k = 0; k < RGB ; k++)
+    for (int i = 0; i < SIZE-1; i++) {   // loop on rows in image 
+        for (int j = 0; j< SIZE-1; j++) {    // loop on columns in image
+            for (int k = 0; k < RGB ; k++)   // loop on RGB
             {
                 // blur color
-                for (int l =0;l<RGB; l++){
-                    int avrg = 0 ;
-                    for (int r = 0; r<3; r++){
-                        for (int c=0; c<3; c++){
-                            avrg += Cimage1[i+r][j+c][l];
-                        }
+
+                int avrg = 0 ;   // define average
+
+                for (int r = 0; r<3; r++){    //loop on each squar of pixels 3x3 
+                    for (int c=0; c<3; c++){    // then take sum of their value
+                        avrg += Cimage1[i+r][j+c][k]; 
                     }
-                    avrg /= 9;
-                    Cimage1[i+1][j+1][l] = avrg;
                 }
+
+                avrg /= 9;    // take the average 
+                Cimage1[i+1][j+1][k] = avrg;    // set each pixel the average of the square
+                
             }
         }
     }
