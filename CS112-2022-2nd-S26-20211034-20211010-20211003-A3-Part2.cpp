@@ -227,12 +227,12 @@ void flipC(){
 void G_upsideDown() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage2[SIZE-i][SIZE-j] = Gimage1[i][j];
+            Gimage2[SIZE-i][SIZE-j] = Gimage1[i][j];        //makes the first column and row of pixels the first
         }
     }
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage1[i][j] = Gimage2[i][j];
+            Gimage1[i][j] = Gimage2[i][j];      //loads the image into the 2d array Gimage1
         }
     }
 }
@@ -241,12 +241,12 @@ void rotateG_TwoSeventy() {
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage2[i][j] = Gimage1[j][i];
+            Gimage2[i][j] = Gimage1[j][i];      //makes rows columns and columns rows
         }
     }
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage1[i][j] = Gimage2[i][j];
+            Gimage1[i][j] = Gimage2[i][j];      //loads the image into the 2d array Gimage1
         }
     }
 }
@@ -255,12 +255,12 @@ void rotateG_Ninety() {
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage2[i][j] = Gimage1[j][i];
+            Gimage2[i][j] = Gimage1[j][i];      //makes the rows columns and the columns rows
         }
     }
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-            Gimage1[SIZE-i][SIZE-j] = Gimage2[i][j];
+            Gimage1[SIZE-i][SIZE-j] = Gimage2[i][j];    //loads the image into the 2d array Gimage1
         }
     }
 }
@@ -281,7 +281,7 @@ void Rotate_G() {
 }
 
 //_______________________________________________
-void C_upsideDown() {
+void C_upsideDown() {       //same as greyscale but with added RGB loop
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
             for (int k=0; k<RGB; k++) {
@@ -478,6 +478,7 @@ void edge_detectionRGB(){
 
 //_______________________________________________
 void enlargeGimage() {
+    
     unsigned int choice, startX, startY;
     cout<<"\nwhich quarter of the picture do you wish to enlarge?";
     cin>>choice;    //takes input from user
@@ -499,7 +500,7 @@ void enlargeGimage() {
             startY = SIZE/2;
             break;
         default :
-            cout<<"invalid input."; // makes sure that the user inputs the correct input
+            cout<<"invalid input."; // outputs invalid input if input is invalid
             return;
     }
     int row = 0;
@@ -528,7 +529,7 @@ void enlargeGimage() {
 
 
 //_______________________________________________
-void enlargeCImage() {
+void enlargeCImage() {          //same as g image but with added RGB
     unsigned int choice, startX, startY;
     cout<<"\nwhich quarter of the picture do you wish to enlarge?";
     cin>>choice;
