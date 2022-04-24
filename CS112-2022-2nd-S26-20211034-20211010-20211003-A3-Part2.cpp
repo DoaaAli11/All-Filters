@@ -3,7 +3,7 @@
 // Author 1: Doaa ALi El-Sayed Mohamed (20211034)
 // Author 2: Ahmed Yasser Mohamed Mohamed (20211010)
 // Author 3: Ahmed Ahmed Hamed Ahmed (20211003)
-// Last version:    22 April 2022
+// Last version:    23 April 2022
 
 
 #include <iostream>
@@ -63,16 +63,16 @@ void blurC ();
 void BW_gray(){
     int avg{};
     for(size_t i{}; i < SIZE; ++i ){
-        for (size_t j{}; j < SIZE; ++j){
-            avg += Gimage1[i][j];
+        for (size_t j{}; j < SIZE; ++j){     // loop in rows and columns in the image
+            avg += Gimage1[i][j];     // take the average of all pixels 
         }
     }
     for (size_t i{0}; i < SIZE; ++i ){
-        for (size_t j{0}; j < SIZE; ++j){
-            if (Gimage1[i][j] > (avg/(SIZE*SIZE))){
-                Gimage1[i][j] = 255;
-            }else{
-                Gimage1[i][j] = 0;
+        for (size_t j{0}; j < SIZE; ++j){     // loop in rows and columns in the image
+            if (Gimage1[i][j] > (avg/(SIZE*SIZE))){     // check if value of pixel > average
+                Gimage1[i][j] = 255;        // set the value = 255 (white)
+            }else{         // if value of pixel < average
+                Gimage1[i][j] = 0;      // set the value = 0 (black)
 
             }
         }
@@ -86,22 +86,22 @@ void BW_color() {
 
     for (size_t i{}; i < SIZE; ++i) {
         for (size_t row{}; row < SIZE; ++row) {
-            for (size_t col{}; col < RGB; ++col) {
-                avg += Cimage1[i][row][col];
+            for (size_t col{}; col < RGB; ++col) {  // loop in rows, columns and RGB in the image
+                avg += Cimage1[i][row][col];        // take the average of all pixels 
            }
        }
     }
 
     for (size_t i{}; i < SIZE; ++i) {
         for (size_t r{}; r < SIZE; ++r) {
-            for (size_t c{}; c < RGB; ++c) {
-                if (((avg) /(SIZE*SIZE*RGB)) < Cimage1[i][r][c]) {
+            for (size_t c{}; c < RGB; ++c) {  // loop in rows, columns and RGB in the image
+                if (((avg) /(SIZE*SIZE*RGB)) < Cimage1[i][r][c]) {     // if value of average < pixel
                     for (size_t k{}; k < RGB; ++k){
-                        Cimage1[i][r][k] = 255;
+                        Cimage1[i][r][k] = 255;     // set the value = 255 (white)
                     }
-                } else {
+                } else {        // if value of average > pixel
                     for (size_t k{}; k < RGB; ++k){
-                        Cimage1[i][r][k] = 0;
+                        Cimage1[i][r][k] = 0;    // set the value = 0 (black)
 
                     }
                 }
@@ -178,19 +178,19 @@ void flipG(){
     char flip;
     cout << "Flip (h)orizontally or (v)ertically ?" << endl;
     cin >> flip;
-    if(tolower(flip) == 'h'){
+    if(tolower(flip) == 'h'){            // if user chooses to flip horizontally
         for (int i{}; i < SIZE; ++i){
-            for (int j{}; j < SIZE/2; ++j){
-                swap(Gimage1[i][j], Gimage1[i][SIZE-j-1]);
+            for (int j{}; j < SIZE/2; ++j){    // loop on rows and half columns in image
+                swap(Gimage1[i][j], Gimage1[i][SIZE-j-1]);     // swap each row on the top and its opposite
 
             }
         }
 
     }
-    else{
+    else{                      // if user chooses to flip vertically
         for (int i{}; i < SIZE; ++i){
-            for (int j{}; j < SIZE / 2; ++j){
-                swap(Gimage1[j][i],Gimage1[SIZE-j-1][i]);
+            for (int j{}; j < SIZE / 2; ++j){      // loop on half rows and columns in image
+                swap(Gimage1[j][i],Gimage1[SIZE-j-1][i]);     // swap each column on the right and its opposite on the left
             }
         }
     }
@@ -202,21 +202,21 @@ void flipC(){
     char flip;
     cout << "Flip (h)orizontally or (v)ertically ?" << endl;
     cin >> flip;
-    if(tolower(flip) == 'h'){
+    if(tolower(flip) == 'h'){      // if user chooses to flip horizontally
         for (int i{}; i < SIZE; ++i){
-            for (int j{}; j < SIZE / 2; ++j){
+            for (int j{}; j < SIZE / 2; ++j){     // loop on rows and half columns in image
                 for (int k{}; k < RGB; ++k){
-                    swap(Cimage1[i][j][k], Cimage1[i][SIZE-j][k]);
+                    swap(Cimage1[i][j][k], Cimage1[i][SIZE-j][k]);     // swap each row on the top and its opposite
                 }
             }
         }
 
     }
-    else{
+    else{                  // if user chooses to flip vertically
         for (int i{}; i < SIZE; ++i){
-            for (int j{}; j < SIZE / 2; ++j){
+            for (int j{}; j < SIZE / 2; ++j){     // loop on half rows and columns in image
                 for (int k{}; k < RGB; ++k){
-                    swap(Cimage1[j][i][k], Cimage1[SIZE-j-1][i][k]);
+                    swap(Cimage1[j][i][k], Cimage1[SIZE-j-1][i][k]);       // swap each column on the right and its opposite on the left
                 }
             }
         }
@@ -413,16 +413,16 @@ void LDCimage6 () {
 //_______________________________________________
 
 void edge_detectionG() {
-    BW_gray();
+    BW_gray();          // change the image into black&white image
     for (int i{}; i < SIZE; ++i){
         for (int j{}; j < SIZE; ++j){
-            Gimage2[i][j] = 255;
+            Gimage2[i][j] = 255;      // set a white image2 
         }
     }
 
     for (int i{}; i < SIZE; ++i) {
         for (int j{}; j < SIZE; ++j) {
-            if(Gimage1[i][j] == 0){
+            if(Gimage1[i][j] == 0){   // check if all pixels around this black or not, then set this pixel = 0 (black)
                 if(Gimage1[i][j-1] == 255 && Gimage1[i][j+1] == 0 || Gimage1[i][j-1] == 0 && Gimage1[i][j+1 ] == 255)
                     Gimage2[i][j] = Gimage1[i][j];
 
@@ -433,7 +433,7 @@ void edge_detectionG() {
 
     for (int i=0; i < SIZE; ++i) {
         for (int j=0; j < SIZE; ++j) {
-                Gimage1[i][j] = Gimage2[i][j];
+                Gimage1[i][j] = Gimage2[i][j];     
         }
     }
 
@@ -442,11 +442,11 @@ void edge_detectionG() {
 //_______________________________________________
 
 void edge_detectionRGB(){
-    BW_color();
+    BW_color();      // change the image into black&white image
     for (int i{}; i < SIZE; ++i){
         for (int j{}; j < SIZE; ++j){
             for(int k{}; k < SIZE; ++k){
-                Cimage2[i][j][k] = 255;
+                Cimage2[i][j][k] = 255;          // set a white image2 
             }
         }
     }
@@ -454,7 +454,7 @@ void edge_detectionRGB(){
         for (int j{}; j < SIZE; ++j) {
             for(int k{}; k < RGB; ++k){
 
-                if (Cimage1[i][j][k] == 0) {
+                if (Cimage1[i][j][k] == 0) {   // check if all pixels around this black or not, then set this pixel = 0 (black)
                     if ((Cimage1[i][j - 1][k] == 255 && Cimage1[i][j + 1][k] == 0 )||( Cimage1[i][j - 1][k] == 0 && Cimage1[i][j + 1][k] == 255) ){
                         Cimage2[i][j][k] = 0;
                     } else{
@@ -773,31 +773,31 @@ void mirrorG(){
     cout << "\nEnter the half of the image that you want to mirror 'L', 'R', 'U', 'D' " << endl;
     cin >> ch;
 
-    if (tolower(ch) == 'r') {
+    if (tolower(ch) == 'r') {        // if mirror right half
         for (int i{}; i < SIZE / 2; ++i) {
-            for (int j{}; j < SIZE; ++j) {
-                Gimage1[j][i] = Gimage1[j][SIZE - i];
+            for (int j{}; j < SIZE; ++j) {    
+                Gimage1[j][i] = Gimage1[j][SIZE - i]; // copy first column to last column, and increase the first and decrease the second
             }
         }
     }
-    else if (tolower(ch) == 'l') {
+    else if (tolower(ch) == 'l') {        // if mirror left half
         for (int i{}; i < SIZE / 2; ++i) {
-            for (int j{}; j < SIZE; ++j) {
-                Gimage1[j][SIZE - i] = Gimage1[j][i];
+            for (int j{}; j < SIZE; ++j) {    
+                Gimage1[j][SIZE - i] = Gimage1[j][i];    // copy last column to first column, and decrease the first and increase the second
             }
         }
     }
-    else if (tolower(ch) == 'u') {
+    else if (tolower(ch) == 'u') {     // if mirror upper half
         for (int i{}; i < SIZE / 2; ++i) {
-            for (int j{}; j < SIZE; ++j) {
-                Gimage1[i][j] = Gimage1[SIZE - i][j];
+            for (int j{}; j < SIZE; ++j) {     
+                Gimage1[i][j] = Gimage1[SIZE - i][j];      // copy first row to last row, and increase the first and decrease the second
             }
         }
     }
-    else {
-        for (int i{}; i < SIZE / 2; ++i) {
+    else {        // if mirror down half
+        for (int i{}; i < SIZE / 2; ++i) {    
             for (int j{}; j < SIZE; ++j) {
-                Gimage1[SIZE - i][j] = Gimage1[i][j];
+                Gimage1[SIZE - i][j] = Gimage1[i][j];     // copy last row to first row, and decrease the first and increase the second
             }
         }
     }
