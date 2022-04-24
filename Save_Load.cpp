@@ -76,7 +76,7 @@ void loadCImage2 () {
 void saveCImage () {
     char imageFileName[100];
 
-    // Get gray scale image file name
+    // Get colored scale image file name
     cout << "Enter the target file name: ";
     cin >> imageFileName;
 
